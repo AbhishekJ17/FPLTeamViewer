@@ -24,7 +24,15 @@ struct PremierLeagueTeamListView: View {
                 }else {
                     ScrollView {
                         ForEach(viewModel.teamSummary, id: \.self) { team in
-                            TeamListView(teamSummary: team)
+                            NavigationLink {
+                                PremierLeagueTeamSquadView(teamSummary: team)
+                                    .onAppear {
+                                        debugPrint("Navigate to team: ", team)
+                                    }
+                            } label: {
+                                TeamListView(teamSummary: team)
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
                 }
@@ -32,9 +40,7 @@ struct PremierLeagueTeamListView: View {
             .navigationTitle("Premier League Teams")
         }
         .environmentObject(viewModel)
-
     }
-
 }
 
 #Preview {

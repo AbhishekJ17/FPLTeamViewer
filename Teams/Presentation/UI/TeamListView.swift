@@ -32,6 +32,7 @@ struct TeamListView: View {
             }
             Divider()
         }
+        .contentShape(Rectangle())
         .padding(.horizontal, 20)
     }
 }
