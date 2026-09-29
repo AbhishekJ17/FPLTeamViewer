@@ -10,8 +10,22 @@ import SwiftUI
 struct PremierLeagueTeamSquadView: View {
 
     var teamSummary: TeamSummary
+    var squadSections: [SquadSection] = []
+
     var body: some View {
-        Text(teamSummary.team.name)
+        List {
+            ForEach(squadSections, id: \.position) { section in
+                Section(header: Text(section.position.title)
+                    .font(.headline)
+                    .foregroundColor(.primary)) {
+                        ForEach(section.players, id: \.id) { player in
+                            PlayerRowView(player: player)
+                        }
+                    }
+            }
+        }
+        .listStyle(.insetGrouped)
+        .navigationTitle(teamSummary.team.name)
     }
 }
 

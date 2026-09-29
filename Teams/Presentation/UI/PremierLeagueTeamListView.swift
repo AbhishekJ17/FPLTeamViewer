@@ -24,10 +24,10 @@ struct PremierLeagueTeamListView: View {
                 }else {
                     ScrollView {
                         ForEach(viewModel.teamSummary, id: \.self) { team in
-                            NavigationLink {
-                                PremierLeagueTeamSquadView(teamSummary: team)
+                            NavigationLink {                               
+                                PremierLeagueTeamSquadView(teamSummary: team, squadSections: viewModel.squadSections)
                                     .onAppear {
-                                        debugPrint("Navigate to team: ", team)
+                                        viewModel.getSquadFromTeam(id: team.id)
                                     }
                             } label: {
                                 TeamListView(teamSummary: team)

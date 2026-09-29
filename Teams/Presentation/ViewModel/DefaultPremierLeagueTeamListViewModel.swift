@@ -10,12 +10,15 @@ import Combine
 
 protocol PremierLeagueTeamListViewModelInput {
     func fetchTeamList()
+    func getSquadFromTeam(id: Int)
 }
 
 protocol PremierLeagueTeamListViewModelOutput {
     var errorMessage: String { get set }
     var isLoading: Bool { get set }
     var teamSummary: [TeamSummary] { get set }
+    var squadSections: [SquadSection] { get set }
+    var teamList: BootstrapResponse? { get set }
 }
 
 typealias PremierLeagueTeamListViewModel = PremierLeagueTeamListViewModelInput & PremierLeagueTeamListViewModelOutput
@@ -25,7 +28,9 @@ final class DefaultPremierLeagueTeamListViewModel: PremierLeagueTeamListViewMode
     @Published var isLoading: Bool = false
     @Published var errorMessage: String = ""
     @Published var teamSummary: [TeamSummary] = []
+    @Published var squadSections: [SquadSection] = []
 
+    var teamList: BootstrapResponse?
     private let teamListUseCase: PremierLeagueTeamListUseCase
 
     init(teamListUseCase: PremierLeagueTeamListUseCase) {
@@ -38,6 +43,7 @@ final class DefaultPremierLeagueTeamListViewModel: PremierLeagueTeamListViewMode
             self.isLoading = true
             do {
                 if let teamList = try await teamListUseCase.fetchPremierLeagueTeams() {
+                    self.teamList = teamList
                     self.teamSummary = teamList.teamSummaries()
                 }
             } catch let error as APIError {
@@ -46,5 +52,10 @@ final class DefaultPremierLeagueTeamListViewModel: PremierLeagueTeamListViewMode
             self.isLoading = false
         }
     }
-}
 
+    func getSquadFromTeam(id: Int) {
+        if let teamList {
+            self.squadSections = SquadBuilder.sections(from: teamList.players(forTeam: id))
+        }
+    }
+}
