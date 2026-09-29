@@ -55,6 +55,11 @@
 			path = Teams;
 			sourceTree = "<group>";
 		};
+		84B56C5B306C0C3A002E906F /* CommonUI */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CommonUI;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +90,7 @@
 		84B56BEC306B8427002E906F = {
 			isa = PBXGroup;
 			children = (
+				84B56C5B306C0C3A002E906F /* CommonUI */,
 				84B56C21306B8F2C002E906F /* Service */,
 				84B56C2A306B9030002E906F /* Teams */,
 				84B56BF7306B8427002E906F /* FPLTeamViewer */,
@@ -123,6 +129,7 @@
 				84B56BF7306B8427002E906F /* FPLTeamViewer */,
 				84B56C21306B8F2C002E906F /* Service */,
 				84B56C2A306B9030002E906F /* Teams */,
+				84B56C5B306C0C3A002E906F /* CommonUI */,
 			);
 			name = FPLTeamViewer;
 			packageProductDependencies = (

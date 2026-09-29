@@ -17,7 +17,22 @@ struct PremierLeagueTeamListView: View {
     }
 
     var body: some View {
-        Text("Select an item")
+        NavigationStack {
+            VStack(alignment: .leading, spacing: 10) {
+                if viewModel.isLoading && viewModel.teamSummary.isEmpty {
+                    Loader()
+                }else {
+                    ScrollView {
+                        ForEach(viewModel.teamSummary, id: \.self) { team in
+                            TeamListView(teamSummary: team)
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Premier League Teams")
+        }
+        .environmentObject(viewModel)
+
     }
 
 }

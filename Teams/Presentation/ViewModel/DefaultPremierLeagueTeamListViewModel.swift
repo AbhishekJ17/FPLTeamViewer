@@ -15,6 +15,7 @@ protocol PremierLeagueTeamListViewModelInput {
 protocol PremierLeagueTeamListViewModelOutput {
     var errorMessage: String { get set }
     var isLoading: Bool { get set }
+    var teamSummary: [TeamSummary] { get set }
 }
 
 typealias PremierLeagueTeamListViewModel = PremierLeagueTeamListViewModelInput & PremierLeagueTeamListViewModelOutput
@@ -23,6 +24,7 @@ final class DefaultPremierLeagueTeamListViewModel: PremierLeagueTeamListViewMode
 
     @Published var isLoading: Bool = false
     @Published var errorMessage: String = ""
+    @Published var teamSummary: [TeamSummary] = []
 
     private let teamListUseCase: PremierLeagueTeamListUseCase
 
@@ -36,12 +38,7 @@ final class DefaultPremierLeagueTeamListViewModel: PremierLeagueTeamListViewMode
             self.isLoading = true
             do {
                 if let teamList = try await teamListUseCase.fetchPremierLeagueTeams() {
-                    debugPrint(teamList.teams.count)
-                    debugPrint(teamList.teamSummaries())
-                    if let teamId = teamList.teams.first?.id {
-                        let squad = SquadBuilder.sections(from: teamList.players(forTeam: 1))
-                        debugPrint(squad.count)
-                    }
+                    self.teamSummary = teamList.teamSummaries()
                 }
             } catch let error as APIError {
                 self.errorMessage = error.message
