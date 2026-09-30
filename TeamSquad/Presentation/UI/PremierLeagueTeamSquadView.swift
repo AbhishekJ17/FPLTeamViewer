@@ -17,14 +17,18 @@ struct PremierLeagueTeamSquadView: View {
 
     var body: some View {
         List {
-            ForEach(viewModel.squadSections, id: \.position) { section in
-                Section(header: Text(section.position.title)
-                    .font(.headline)
-                    .foregroundColor(.primary)) {
+            if viewModel.squadSections.isEmpty {
+                Section {
+                    ErrorView(error: viewModel.errorMessage.isEmpty ? "No players found" : viewModel.errorMessage)
+                }
+            } else {
+                ForEach(viewModel.squadSections, id: \.position) { section in
+                    Section(header: Text(section.position.title).font(.headline).foregroundColor(.primary)) {
                         ForEach(section.players, id: \.id) { player in
                             PlayerRowView(player: player)
                         }
                     }
+                }
             }
         }
         .listStyle(.insetGrouped)
@@ -33,7 +37,8 @@ struct PremierLeagueTeamSquadView: View {
             text: $viewModel.searchText,
             isPresented: $viewModel.isSearchPresented,
             placement: .navigationBarDrawer,
-            prompt: "Search player in squad")
+            prompt: "Search player in squad"
+        )
     }
 }
 

@@ -51,6 +51,4 @@ final class DefaultPremierLeagueTeamListViewModel: PremierLeagueTeamListViewMode
             self.isLoading = false
         }
     }
-
-    
 }

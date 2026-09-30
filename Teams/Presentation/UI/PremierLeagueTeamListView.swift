@@ -22,6 +22,8 @@ struct PremierLeagueTeamListView: View {
             VStack(alignment: .leading, spacing: 10) {
                 if viewModel.isLoading && viewModel.teamSummary.isEmpty {
                     Loader()
+                }else if !viewModel.errorMessage.isEmpty && viewModel.teamSummary.isEmpty {
+                    ErrorView(error: viewModel.errorMessage)
                 }else {
                     ScrollView {
                         ForEach(viewModel.teamSummary, id: \.self) { team in
@@ -29,6 +31,9 @@ struct PremierLeagueTeamListView: View {
                                 selectedTeam = team
                             }
                         }
+                    }
+                    .refreshable {
+                        viewModel.fetchTeamList()
                     }
                 }
             }
