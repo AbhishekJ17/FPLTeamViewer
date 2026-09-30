@@ -5,7 +5,7 @@
 //  Created by Admin on 29/09/26.
 //
 
-class DefaultPremierLeagueTeamUseCase: PremierLeagueTeamListUseCase {
+final class DefaultPremierLeagueTeamUseCase: PremierLeagueTeamListUseCase {
 
     private let repository: PremierLeagueTeamListRepository
 

@@ -5,7 +5,7 @@
 //  Created by Admin on 29/09/26.
 //
 
-class DefaultPremierLeagueTeamListRepository: PremierLeagueTeamListRepository {
+final class DefaultPremierLeagueTeamListRepository: PremierLeagueTeamListRepository {
 
     func fetchPremierLeagueTeams<T>(endPoint: any APIEndPoint) async throws -> T? where T : Decodable {
         do {
