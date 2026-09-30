@@ -31,9 +31,11 @@ final class DefaultPremierLeagueTeamListViewModel: PremierLeagueTeamListViewMode
 
     var teamList: BootstrapResponse?
     private let teamListUseCase: PremierLeagueTeamListUseCase
+    private let cacheService: TeamCacheServiceProtocol
 
-    init(teamListUseCase: PremierLeagueTeamListUseCase) {
+    init(teamListUseCase: PremierLeagueTeamListUseCase, cacheService: TeamCacheServiceProtocol = TeamCacheService()) {
         self.teamListUseCase = teamListUseCase
+        self.cacheService = cacheService
         fetchTeamList()
     }
 
@@ -44,11 +46,19 @@ final class DefaultPremierLeagueTeamListViewModel: PremierLeagueTeamListViewMode
                 if let teamList = try await teamListUseCase.fetchPremierLeagueTeams() {
                     self.teamList = teamList
                     self.teamSummary = teamList.teamSummaries()
+                    self.cacheService.save(teamSummary)
                 }
-            } catch let error as APIError {
-                self.errorMessage = error.message
+                self.isLoading = false
+            } catch let error {
+                if let cachedTeams = self.cacheService.load(), !cachedTeams.isEmpty {
+                    self.teamSummary = cachedTeams
+                }else if let apiError = error as? APIError {
+                    self.errorMessage = apiError.message
+                }else {
+                    self.errorMessage = error.localizedDescription
+                }
+                self.isLoading = false
             }
-            self.isLoading = false
         }
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TeamSummary: Identifiable, Hashable, Sendable {
+struct TeamSummary: Identifiable, Hashable, Sendable, Codable {
     let team: Team
     let playerCount: Int
     var id: Int { team.id }
