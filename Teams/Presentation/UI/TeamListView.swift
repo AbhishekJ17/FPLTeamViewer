@@ -10,6 +10,7 @@ import SwiftUI
 struct TeamListView: View {
 
     var teamSummary: TeamSummary
+    let onSelect: () -> Void
 
     var body: some View {
         VStack {
@@ -34,9 +35,13 @@ struct TeamListView: View {
         }
         .contentShape(Rectangle())
         .padding(.horizontal, 20)
+        .onTapGesture {
+            onSelect()
+        }
     }
 }
 
 #Preview {
-    TeamListView(teamSummary: TeamSummary(team: .init(id: 1, name: "Arsenal", shortName: "Ars"), playerCount: 20))
+    TeamListView(
+        teamSummary: TeamSummary(team: .init(id: 1, name: "Arsenal", shortName: "Ars"), playerCount: 20), onSelect: {})
 }

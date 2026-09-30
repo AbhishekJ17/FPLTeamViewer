@@ -11,6 +11,7 @@ import SwiftData
 struct PremierLeagueTeamListView: View {
 
     @StateObject var viewModel: DefaultPremierLeagueTeamListViewModel
+    @State var selectedTeam: TeamSummary?
 
     init(viewModel: DefaultPremierLeagueTeamListViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -24,18 +25,15 @@ struct PremierLeagueTeamListView: View {
                 }else {
                     ScrollView {
                         ForEach(viewModel.teamSummary, id: \.self) { team in
-                            NavigationLink {                               
-                                PremierLeagueTeamSquadView(teamSummary: team, squadSections: viewModel.squadSections)
-                                    .onAppear {
-                                        viewModel.getSquadFromTeam(id: team.id)
-                                    }
-                            } label: {
-                                TeamListView(teamSummary: team)
+                            TeamListView(teamSummary: team) {
+                                selectedTeam = team
                             }
-                            .buttonStyle(.plain)
                         }
                     }
                 }
+            }
+            .navigationDestination(item: $selectedTeam) { team in
+                SquadViewBuilder.makeView(teamList: viewModel.teamList, teamSummary: team)
             }
             .navigationTitle("Premier League Teams")
         }

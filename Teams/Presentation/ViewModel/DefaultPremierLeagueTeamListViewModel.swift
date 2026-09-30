@@ -10,7 +10,6 @@ import Combine
 
 protocol PremierLeagueTeamListViewModelInput {
     func fetchTeamList()
-    func getSquadFromTeam(id: Int)
 }
 
 protocol PremierLeagueTeamListViewModelOutput {
@@ -53,9 +52,5 @@ final class DefaultPremierLeagueTeamListViewModel: PremierLeagueTeamListViewMode
         }
     }
 
-    func getSquadFromTeam(id: Int) {
-        if let teamList {
-            self.squadSections = SquadBuilder.sections(from: teamList.players(forTeam: id))
-        }
-    }
+    
 }
