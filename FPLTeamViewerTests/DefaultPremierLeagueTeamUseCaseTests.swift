@@ -27,6 +27,7 @@ final class DefaultPremierLeagueTeamUseCaseTests: XCTestCase {
 
     func testFetchPremierLeagueTeams_Success() async throws {
         mockRepository.shouldReturnError = false
+        mockRepository.mockResponse = await BootstrapResponse()
         let result = try await sut.fetchPremierLeagueTeams()
         XCTAssertNotNil(result)
     }

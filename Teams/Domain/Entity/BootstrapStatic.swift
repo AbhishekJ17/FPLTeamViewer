@@ -24,6 +24,11 @@ extension BootstrapResponse {
     func players(forTeam teamID: Int) -> [Player] {
         elements.filter { $0.team == teamID }
     }
+
+    init() {
+        self.teams = []
+        self.elements = []
+    }
 }
 
 enum SquadBuilder {
